@@ -32,7 +32,7 @@
 			if($chk[0])
 			{
 				$_SESSION['id'] = $chk[1]['admin_id'];
-				header("Location:post.php");
+				header("Location:category.php");
 			}
 			
 			
