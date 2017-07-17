@@ -5,15 +5,15 @@
    include 'includes/functions.php';
 
    ?>
-   
+
    <?php
 
    #getting id of data from url
-   $id =$_GET['id'];
+  # $id =$_GET['id'];
 
 
    #deleting the row from table
-  deleteCategory($conn,$_GET);
+   #deleteCategory($conn,$_GET);
 
 
 

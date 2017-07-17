@@ -211,25 +211,36 @@ function addCategories($dbconn, $input)
 
 
 
-		function editCategory($dbconn,$post,$get){
+		function editCategory($dbconn,$input,$id){
 
 
-  $stmt =$dbconn->prepare("UPDATE categories SET category_name=:name WHERE category_id=:id");
+  $stmt =$dbconn->prepare("UPDATE category SET category_name=:name WHERE category_id=:cid");
 
-        $stmt->bindparam(":name",$post['category']);
+        
+        $data = [
+        ":name" => $input,
+        ":cid" => $id
+        ];
 
-        $stmt->bindparam(":id",$get['id']);
+        $stmt->execute($data);
 
-        $stmt->execute();
-
-        header("Location:category.php");
+        header("Location:viewcategory.php");
 	   
+     }
+
+     function getCategoryById($dbconn, $id)
+     {
+     	$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_id= :cid");
+     	$stmt->bindParam(":cid", $id);
+     	$stmt->execute();
+     	$row = $stmt->fetch(PDO::FETCH_BOTH);
+     	return $row;
      }
 
      function viewCategory($dbconn)
 
      {
-     	$result ="";
+     	$result =" ";
 
 		$stmt= $dbconn->prepare("SELECT * FROM category");
      	$stmt->execute();
@@ -251,6 +262,8 @@ function addCategories($dbconn, $input)
      	
 
      }
+
+     
 
 
      function deleteCategory($dbconn,$get){

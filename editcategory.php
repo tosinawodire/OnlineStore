@@ -86,7 +86,7 @@
 		
 			<div class="paginated">
 			<strong>
-				<a href="editcategory.php">EDIT CATEGORY</a>
+			<a href="editcategory.php">EDIT CATEGORY</a>
 			<a href="deletecategory.php">DELETE CATEGORY</a>
 			<span></span>
 			<a href="post.php">POST</a>

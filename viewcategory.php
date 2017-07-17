@@ -21,7 +21,6 @@
 					<tr>
 						<th>Category Id:</th>
 						<th>Category Name:</th>
-						<th>date created</th>
 						<th>edit</th>
 						<th>delete</th>
 					</tr>
@@ -30,10 +29,10 @@
 					<tr>
 						<?php $view = viewCategory($conn); echo $view; ?>
 						<td></td>
-						<td>maja</td>
-						<td>January, 10</td>
-						<td><a href="#">edit</a></td>
-						<td><a href="#">delete</a></td>
+						<td></td>
+						<td></td>
+						<td><a href="edit_view.php">edit</a></td>
+						<td><a href="deletecategory.php">delete</a></td>
 					</tr>
           		</tbody>
 			</table>
