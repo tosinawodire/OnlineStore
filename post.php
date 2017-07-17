@@ -35,7 +35,7 @@ $_SESSION['active'] = true;
 						<th>Author</th>
 						<th>Category</th>
 						<th>Price</th>
-						<th>Year </th>
+						<th>Year</th>
 						<th>ISBN</th>
 						<th>Flag</th>
 						<th>Image</th>
@@ -53,10 +53,13 @@ $_SESSION['active'] = true;
 		</div>
 
 		<div class="paginated">
-			<a href="#">1</a>
-			<a href="#">2</a>
-			<span>3</span>
-			<a href="#">2</a>
+			<strong>
+				<a href="editcategory.php">EDIT CATEGORY</a>
+			<a href="deletecategory.php">DELETE CATEGORY</a>
+			<span></span>
+			<a href="post.php">POST</a>
+			</strong>
+			
 		</div>
 	</div>
 

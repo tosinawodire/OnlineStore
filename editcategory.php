@@ -72,9 +72,7 @@
 					<form class="register" method="POST">
 						<p>Edit Category</p>
 
-						<input type="text" name="category" placeholder ="enter category name"  
-						value="<?php echo $_GET['name'];?>"
-						>
+						<input type="text" name="category">
 
 
 						<input type="submit" name="edit" value="Click to edit">
@@ -85,7 +83,16 @@
 				
 		</div>
 
-		<div class="paginated">
+		
+			<div class="paginated">
+			<strong>
+				<a href="editcategory.php">EDIT CATEGORY</a>
+			<a href="deletecategory.php">DELETE CATEGORY</a>
+			<span></span>
+			<a href="post.php">POST</a>
+			</strong>
+			
+		
 			
 		</div>
 	</div>

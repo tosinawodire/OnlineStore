@@ -140,25 +140,76 @@
 }
 
 
-function addCategories($dbconn, $input) {
+/*function checkcategory($dbconn, $input) {
 	$cat = [];
 	$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_name = :cat_name");
 	$stmt->bindParam(":cat_name", $input['category_name']);
 	$stmt->execute();
-	if($stmt->rowCount() == 0) {
+
+	if($stmt->rowCount() == 0) 
+	{
+		addCategories()
+	}
+
+}
+
+function addCategories($dbconn, $input)
+{
+
+
 		$st = $dbconn->prepare("INSERT INTO category(category_name) VALUES(:cat_name)");
+		
 		$st->bindParam(":cat_name", $input['category_name']);
 		$st->execute();
 		 $success = "Category Successfully Added";
     
     header("Location:category.php?success=$success");
    
+		
+	}
+		return $cat;
+
+}*/
+		
+		/*function checkCategory($dbconn, $input) {
+	$cat = [];
+	$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_name = :cat_name");
+	$stmt->bindParam(":cat_name", $input['category_name']);
+	$stmt->execute();
+	return $stmt;
+
+
+	}
+
+	function addCategory($dbconn, $input)
+	{
+		checkCategory($stmt);
+	if($stmt->rowCount() == 0) {
+		$st = $dbconn->prepare("INSERT INTO category(category_name) VALUES(:cat_name)");
+		$st->bindParam(":cat_name", $input['category_name']);
+		$st->execute();
 		$row = $st->fetch(PDO::FETCH_BOTH);
 		$cat[] = true;
 		$cat[] = $row['category_id'];
 		return $cat;
 	}
-}
+}*/
+			function addCategory($dbconn, $input)
+			{
+				$stmt = $dbconn->prepare("INSERT INTO category() VALUES(:id, :ca)");
+				$data =[
+				':id'=>$input[NULL],
+				':ca'=> $input['category']
+				];
+				$stmt->execute($data);
+			}
+
+
+
+
+
+
+
 
 		function editCategory($dbconn,$post,$get){
 
@@ -175,6 +226,32 @@ function addCategories($dbconn, $input) {
 	   
      }
 
+     function viewCategory($dbconn)
+
+     {
+     	$result ="";
+
+		$stmt= $dbconn->prepare("SELECT * FROM category");
+     	$stmt->execute();
+
+     	while ($row = $stmt->fetch(PDO::FETCH_BOTH))
+      {
+     	$result .= '<tr>
+     	<td>'.$row['category_id'].'</td>;
+     	<td>'.$row['category_name'].'</td>;
+
+     	<td><a href="edit_view.php?cid='.$row['category_id'].'">edit</a></td>;
+
+		<td><a href="delete.php?cid='.$row['category_id'].'">delete</a></td>;
+		</tr>';
+
+     }
+
+     	return $result;
+     	
+
+     }
+
 
      function deleteCategory($dbconn,$get){
 
@@ -185,7 +262,7 @@ function addCategories($dbconn, $input) {
 
          $stmt->execute();
 
-         redirect('category.php');
+         header('category.php');
 
        }
 
