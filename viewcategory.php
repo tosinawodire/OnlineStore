@@ -39,7 +39,7 @@
 		</div>
 
 		<div class="paginated">
-			<a href="#">1</a>
+			<a href="addproduct.php">ADD PRODUCTS</a>
 			<a href="#">2</a>
 			<span>3</span>
 			<a href="#">2</a>

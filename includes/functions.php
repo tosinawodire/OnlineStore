@@ -73,47 +73,6 @@
 
 	}
 
-	function getproducts($dbconn){
-      $stmt=$dbconn->prepare("SELECT * FROM books");
-       $stmt->execute();
-      $result = "";
-
-       while ($record = $stmt->fetch()){
-              $book_id = $record['book_id'];
-              $title = $record['title'];
-              $author = $record['author'];
-              $category = getCategoryByID($dbconn, $record['cat_id']);
-              $price = $record['price'];
-              $year= $record['year'];
-              $isbn = $record['isbn'];
-
-              $path = $record['image_path'];
-                   $flag = $record['flag'];
-           
-
-          
-
-                $result .= "<tr>";
-                $result .= "<td>".$title."</td>";
-                $result .= "<td>".$author."</td>";
-                $result .= "<td>".$category['category_name']."</td>";
-                $result .= "<td>".$price."</td>";
-                $result .= "<td>".$year."</td>";
-                $result .= "<td>".$isbn."</td>";
-                $result .= "<td>".$flag."</td>";
-                $result .= "<td><img src='$path' height='80px'  width='80px'/></td>";
-                $result .= "<td><a href='editProducts.php?book_id=$book_id'>edit</a></td>";
-                   $result .= "<td><a href='adminHome.php?action=delete&book_id=$book_id'>delete</a></td>";
-                
-                $result .= "</tr>";
-
-
-         }
-         return $result;
-
-
-
-}
 
 	function viewCategories($dbconn){
 
@@ -140,60 +99,6 @@
 }
 
 
-/*function checkcategory($dbconn, $input) {
-	$cat = [];
-	$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_name = :cat_name");
-	$stmt->bindParam(":cat_name", $input['category_name']);
-	$stmt->execute();
-
-	if($stmt->rowCount() == 0) 
-	{
-		addCategories()
-	}
-
-}
-
-function addCategories($dbconn, $input)
-{
-
-
-		$st = $dbconn->prepare("INSERT INTO category(category_name) VALUES(:cat_name)");
-		
-		$st->bindParam(":cat_name", $input['category_name']);
-		$st->execute();
-		 $success = "Category Successfully Added";
-    
-    header("Location:category.php?success=$success");
-   
-		
-	}
-		return $cat;
-
-}*/
-		
-		/*function checkCategory($dbconn, $input) {
-	$cat = [];
-	$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_name = :cat_name");
-	$stmt->bindParam(":cat_name", $input['category_name']);
-	$stmt->execute();
-	return $stmt;
-
-
-	}
-
-	function addCategory($dbconn, $input)
-	{
-		checkCategory($stmt);
-	if($stmt->rowCount() == 0) {
-		$st = $dbconn->prepare("INSERT INTO category(category_name) VALUES(:cat_name)");
-		$st->bindParam(":cat_name", $input['category_name']);
-		$st->execute();
-		$row = $st->fetch(PDO::FETCH_BOTH);
-		$cat[] = true;
-		$cat[] = $row['category_id'];
-		return $cat;
-	}
-}*/
 			function addCategory($dbconn, $input)
 			{
 				$stmt = $dbconn->prepare("INSERT INTO category() VALUES(:id, :ca)");
@@ -228,6 +133,18 @@ function addCategories($dbconn, $input)
 	   
      }
 
+     function deleteCategory($dbconn, $input){
+
+        
+         $stmt = $dbconn->prepare("DELETE FROM category WHERE category_id=:cid");
+         
+         $stmt->bindParam(":cid", $input);
+
+         $stmt->execute();
+
+       }
+
+
      function getCategoryById($dbconn, $id)
      {
      	$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_id= :cid");
@@ -236,6 +153,8 @@ function addCategories($dbconn, $input)
      	$row = $stmt->fetch(PDO::FETCH_BOTH);
      	return $row;
      }
+
+
 
      function viewCategory($dbconn)
 
@@ -253,7 +172,7 @@ function addCategories($dbconn, $input)
 
      	<td><a href="edit_view.php?cid='.$row['category_id'].'">edit</a></td>;
 
-		<td><a href="delete.php?cid='.$row['category_id'].'">delete</a></td>;
+		<td><a href="deletecategory.php?cid='.$row['category_id'].'">delete</a></td>;
 		</tr>';
 
      }
@@ -263,22 +182,67 @@ function addCategories($dbconn, $input)
 
      }
 
-     
+  
+function getCategory($dbconn){
 
+       $stmt =$dbconn->prepare("SELECT * FROM category");
+       $stmt->execute();
+       $result = "";
 
-     function deleteCategory($dbconn,$get){
+       while ($record = $stmt->fetch()){
+            $cat_id = $record['category_id'];
+            $cat_name = $record['category_name'];
 
-        
-         $stmt=$dbconn->prepare("DELETE FROM categories WHERE category_id=:id");
-         
-         $stmt->bindparam(":id", $get['id']);
-
-         $stmt->execute();
-
-         header('category.php');
+            $result .= "<option value='$cat_id'>$cat_name</option>";
 
        }
+       return $result;
+   
+}
 
 
+ function uploadFiles($fileArray, $imageName){
+     // $result = [];
+
+   		#generate random number to append
+    	$rnd = rand(0000000000, 9999999999);
+
+    	#strip filename for spaces
+    	$strip_name = str_replace("","_", $fileArray[$imageName]['name']);
+
+    	$filename = $rnd.$strip_name;
+    	$destination = 'uploads/'.$filename;
+
+    	if(!move_uploaded_file($fileArray[$imageName]['tmp_name'], $destination))
+    	 {
+        	return [false, $destination]; 
+    	}
+    	return [true, $destination]; 
+         }
+
+         function addProducts($dbconn,$input, $destin){
+    $stmt=$dbconn->prepare("INSERT INTO books VALUES(NULL, :title,:au,:id,:bpr,:yr,:is,:flag,:fi)"); 
+           $data =
+           [
+
+           ":title" => $input['title'],
+           ":au" => $input['author'],
+           ":id" => $input['category'],
+           ":bpr" => $input['price'],
+           ":yr" => $input['year'],
+            ":is" => $input['isbn'],
+             ":flag" => $input['flag'],
+            ":fi" => $destin
+  ];
+            
+            $stmt->execute($data);
+
+            
+            
+}
+
+
+
+     
 
 ?>
