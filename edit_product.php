@@ -9,6 +9,12 @@
 	include 'includes/footer.php';
 	include 'includes/functions.php';
 
+	if(isset($_GET['bid']))
+	{
+		$id = $_GET['bid'];
+	}
+
+	$view = getBookById($conn, $_GET['bid']  );
 
     $flag = array ("top-selling", "trending", "most viewed");
 
@@ -89,7 +95,12 @@
 
 						   if($upload[0])
 						   {
-						   	addProducts($conn,$_POST, $upload[1]);
+						   //	addProducts($conn,$_POST, $upload[1]);
+						   	$clean = array_map('trim', $_POST);
+			
+						   	editProducts($conn,$clean,$upload[1], $id);
+
+						   	header("Location:view_products.php?successfully edited");
 
 
 						   }
@@ -107,7 +118,7 @@
 	<div class="wrapper">
 		<h1 id="register-label">Add Products</h1>
 		<hr>
-		<form id="register"  action ="addProduct.php" method ="POST" enctype="multipart/form-data">
+		<form id="register"  action ="" method ="POST" enctype="multipart/form-data">
 			<div>
 
 				<div>
@@ -176,7 +187,7 @@
 
 			</div>
 
-			<input type="submit" name="add" value="Add product">
+			<input type="submit" name="add" value="Edit product">
 
 
 			</form>
@@ -188,6 +199,7 @@
 			<a href="view_products.php">VIEW PRODUCTS</a>
 			<a href="delete_product.php">DELETE PRODUCTS</a>
 
+			<a href="#">2</a>
 			<span>3</span>
 			<a href="#">2</a>
 		</div>

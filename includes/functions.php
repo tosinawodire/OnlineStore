@@ -144,6 +144,21 @@
 
        }
 
+       function deleteProduct($dbconn,$id){
+
+        
+         $stmt=$dbconn->prepare("DELETE FROM books WHERE book_id=:bid");
+         
+         $stmt->bindparam(":bid", $id);
+
+         $stmt->execute();
+         //$success = "Product Deleted";
+
+        // header("location:adminHome.php?message=$success");
+
+       }
+
+
 
      function getCategoryById($dbconn, $id)
      {
@@ -153,6 +168,19 @@
      	$row = $stmt->fetch(PDO::FETCH_BOTH);
      	return $row;
      }
+
+     function getBookByID($dbconn, $bookID) {
+
+  $stmt = $dbconn->prepare("SELECT * FROM books WHERE book_id=:bid");
+
+  $stmt->bindParam(":bid", $bookID);
+  $stmt->execute();
+
+  $row = $stmt->fetch(PDO::FETCH_BOTH);
+
+  return $row;
+}
+
 
 
 
@@ -178,7 +206,37 @@
      }
 
      	return $result;
-     	
+     }
+     function viewProducts($dbconn)
+
+     {
+      $result =" ";
+
+    $stmt= $dbconn->prepare("SELECT * FROM books");
+      $stmt->execute();
+
+      while ($row = $stmt->fetch(PDO::FETCH_BOTH))
+      {
+      $result .= '<tr>
+      <td>'.$row['book_id'].'</td>;
+      <td>'.$row['title'].'</td>;
+      <td>'.$row['author'].'</td>;
+      <td>'.$row['category'].'</td>;
+      <td>'.$row['price'].'</td>;
+      <td>'.$row['year'].'</td>;
+      <td>'.$row['ISBN'].'</td>;
+      <td>'.$row['flag'].'</td>;
+
+
+      <td><a href="edit_product.php?bid='.$row['book_id'].'">edit</a></td>;
+
+    <td><a href="delete_product.php?bid='.$row['book_id'].'">delete</a></td>;
+    </tr>';
+
+     }
+
+      return $result;
+      
 
      }
 
@@ -240,6 +298,35 @@ function getCategory($dbconn){
             
             
 }
+function editProducts($dbconn,$post,$destin,$bookID){
+
+
+  $stmt =$dbconn->prepare("UPDATE books SET title=:t, author=:a, price=:p, year=:y, isbn=:isbn WHERE book_id=:id");
+
+  $data = [
+        ":t" => $input['title'],
+        ":a" => $input['author'],
+        ":id" => $input['category'],
+         ":p" => $input['price'],
+        ":y" => $input['year'],
+        ":is" => $input['isbn'],
+
+      ":id" => $bookID,
+
+      ":isbn",$post['isbn'],
+       ":flag" => $input['flag'],
+       ":fi" => $destin
+  ];
+        
+        
+       
+        $stmt->execute($data);
+        header("Location:view_products.php");
+
+             
+     }
+
+
 
 
 

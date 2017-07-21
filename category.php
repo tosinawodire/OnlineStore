@@ -45,6 +45,8 @@
 				<thead>
 					<tr>
 						<th><a href = "category.php">CREATE CATEGORIES</a></th>
+						<th><a href = "view_products.php">VIEW PRODUCTS</a></th>
+						<th><a href = "edit_product.php">EDIT PRODUCTS</a></th>
 						<th><a href = "editcategory.php">EDIT CATEGORIES</a></th>
 						<th><a href = "deletecategory.php">DELETE CATEGORIES</a></th>
 						<th><a href = "viewcategory.php">VIEW CATEGORIES</a></th>
@@ -72,8 +74,11 @@
 					</form>
 
 		<div class="paginated">
-			<a href="#">1</a>
-			<a href="#">2</a>
+			<a href="addproduct.php">ADD PRODUCTS</a>
+			<a href="edit_product.php">EDIT PRODUCTS</a>
+			<a href="view_products.php">VIEW PRODUCTS</a>
+			<a href="delete_product.php">DELETE PRODUCTS</a>
+
 			<span>3</span>
 			<a href="#">2</a>
 		</div>
